@@ -1,0 +1,31 @@
+version: "3"
+services:
+  game:
+    build:
+      context: .
+      args:
+        username: alberto
+    container_name: "game"
+    working_dir: /opt/app
+    volumes:
+      - .:/opt/app
+    ports:
+      - "127.0.0.1:27800:80"
+      - "127.0.0.1:27801:9229"
+    tty: true
+  mongo:
+    container_name: "mongo_game"
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "127.0.0.1:27802:27017"
+  mongo_client:
+    container_name: "mongo_client_game"
+    image: mongoclient/mongoclient
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL="mongodb://mongo:27017"
+    ports:
+      - "127.0.0.1:27803:3000"
