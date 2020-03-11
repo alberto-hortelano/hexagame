@@ -11,4 +11,3 @@ WORKDIR /opt/app
 EXPOSE 80
 
 CMD [ "sh" ]
-
