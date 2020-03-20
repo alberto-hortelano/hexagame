@@ -1,15 +1,33 @@
 {
-	"name": "game",
+	"name": "hexagame",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "dist/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "node dist/index.js",
+		"dev": "node --inspect=0.0.0.0:9229 dist/index.js",
+		"nodemon": "nodemon --inspect=0.0.0.0:9229 dist/index.js",
+		"build:ts": "tsc --build --clean && tsc -w",
+		"build:wp": "webpack --config webpack.config.js",
+		"build:sass": "sass --watch src/client/index.scss static/style.css",
+		"build:wasm": "npm run build:wasm:exec || npm run build:wasm:run",
+		"build:wasm:exec": "docker-compose exec wasm bash -c './src/build.sh'",
+		"build:wasm:run": "docker-compose run wasm bash -c './src/build.sh'",
+		"build:wasm:bash": "docker-compose exec wasm bash",
+		"test": "jest",
+		"test:debug": "node --inspect=0.0.0.0:9230 node_modules/.bin/jest --runInBand --watch",
+		"test:watch": "jest --watch"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/alberto-hortelano/hexagame.git"
 	},
 	"author": "",
-	"license": "ISC"
+	"license": "ISC",
+	"devDependencies": {
+		"ts-loader": "^6.2.1",
+		"typescript": "^3.8.3",
+		"webpack": "^4.42.0",
+		"webpack-cli": "^3.3.11"
+	}
 }

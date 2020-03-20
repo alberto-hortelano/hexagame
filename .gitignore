@@ -1,6 +1,8 @@
 .vscode/
 node_modules/
-data/
 dist/
 package-lock.json
+public/client.js
+public/wasm.js
+public/wasm.wasm
 
