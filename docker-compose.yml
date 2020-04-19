@@ -5,24 +5,25 @@ services:
     container_name: "game"
     working_dir: /opt/app
     volumes:
-      - .:/opt/app
+      - ./main:/opt/app
     ports:
       - "127.0.0.1:27800:80"
       - "127.0.0.1:27801:9229"
+      - "127.0.0.1:27802:9230"
     tty: true
   wasm:
     container_name: "wasm_game"
     image: wasm
     volumes:
-      - ./src/wasm:/home/wasm/src
-      - ./public:/home/wasm/public
+      - ./main/src/wasm:/home/wasm/src
+      - ./main/public:/home/wasm/public
     command: bash
     tty: true
   static_server:
     container_name: "nginx_game"
     image: nginx:alpine
     volumes:
-      - ./public:/usr/share/nginx/html
+      - ./main/public:/usr/share/nginx/html
     ports:
       - "127.0.0.1:27804:80"
   # mongo:
