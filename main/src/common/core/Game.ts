@@ -13,20 +13,22 @@ Game mechanics:
 			- Show available information
 */
 
-import { Cell } from "./Cell";
 import { SerializableBoard, Board } from "./Board";
 
 export interface SerializableGame { // Serializable properties. 
+	action?: string;
 	board?: SerializableBoard;
 }
 
 export class Game {
 	#action: string;
 	#board: Board;
-	#selectedCell: Cell;
 
-	constructor(game: SerializableGame) {
-		if (game.board) {
+	constructor(game?: SerializableGame) {
+		if (game?.action) {
+			this.#action = game.action;
+		}
+		if (game?.board) {
 			this.#board = new Board(game.board);
 		}
 	}
@@ -36,18 +38,16 @@ export class Game {
 	set board(board: Board) {
 		this.#board = board;
 	}
-	get selectedCell() {
-		return this.#selectedCell;
-	}
-	set selectedCell(cell: Cell) {
-		this.#selectedCell = cell;
-	}
 	get action() {
 		return this.#action;
 	}
 	set action(action: string) {
 		this.#action = action;
 	}
-
-
+	toJSON(): SerializableGame {
+		return {
+			action: this.#action,
+			board: this.#board?.toJSON(),
+		}
+	}
 }

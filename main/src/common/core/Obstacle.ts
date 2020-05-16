@@ -26,5 +26,10 @@ export class Obstacle {
 		this.#position = position;
 		this.#position.obstacle = this;
 	}
+	toJSON(): SerializableObstacle {
+		return {
+			name: this.#name,
+		}
+	}
 }
 

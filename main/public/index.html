@@ -5,7 +5,12 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
 	<style>
+		#board {
+			display: none;
+		}
+
 		.row {
 			float: left;
 			height: 55px;
@@ -58,104 +63,8 @@
 </head>
 
 <body>
-	DEV
-	<script src="wasm.js"></script>
+	<div id="app"></div>
 	<script src="client.js"></script>
-	<div id="board"></div>
-	<script>
-		const board = document.getElementById('board')
-
-		const createBoard = (width, height) => {
-			let x;
-			let y = height;
-			while (y--) {
-				const ul = document.createElement("UL");
-				ul.className = "row";
-				board.appendChild(ul);
-				x = width;
-				while (x--) {
-					const li = document.createElement("LI");
-					li.innerHTML = `<span class="coord">${width - x - 1}-${height - y - 1}</span>`;
-					ul.appendChild(li);
-				}
-			}
-		}
-		createBoard(18, 18)
-
-		const vertexCalculator = [
-			({ x, y }) => ({
-				x: x + y % 2 - 1,
-				y: y - 1
-			}),
-			({ x, y }) => ({
-				x: x + y % 2,
-				y: y - 1
-			}),
-			({ x, y }) => ({
-				x: x + 1,
-				y: y
-			}),
-			({ x, y }) => ({
-				x: x + y % 2,
-				y: y + 1
-			}),
-			({ x, y }) => ({
-				x: x + y % 2 - 1,
-				y: y + 1
-			}),
-			({ x, y }) => ({
-				x: x - 1,
-				y: y
-			}),
-		];
-
-		const calc = (x, y, r) => {
-			const cells = [];
-			let rad = 0;
-			let lastVs = [];
-			while (rad < r) {
-				let vert = 0;
-				while (vert < 6) {
-					const v = vertexCalculator[vert](lastVs[vert] || { x, y });
-					lastVs[vert] = v;
-					cells.push(v);
-					cells.push(...edges(vert, v, rad));
-					vert++;
-				}
-				rad++
-			}
-			console.log("log: calc -> cells", cells);
-			print(cells)
-		}
-
-		const edges = (vert, vertice, rad) => {
-			const cells = [];
-			let step = 0;
-			let last = vertice
-			while (step < rad) {
-				const next = vertexCalculator[(vert + 2) % 6](last);
-				cells.push(next);
-				last = next;
-				step++;
-			}
-			return cells;
-		}
-
-		const print = (cells) => {
-			let i = 0
-			const int = setInterval(() => {
-				const v = cells[i]
-				i++;
-				if (i >= cells.length) {
-					clearInterval(int)
-				}
-				board.children[v.y].children[v.x].style.cssText = `background-color: rgba(50,255,50,0.5);`
-			}, 20)
-		}
-
-		calc(16, 16, 3)
-
-	</script>
 </body>
 
 </html>

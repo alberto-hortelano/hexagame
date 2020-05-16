@@ -147,7 +147,7 @@ export const getCellsInRadius = ({ x, y }: Coords, radius: number, bounds: bound
 			Board heigth: ${bounds.y.to}
 		`);
 	}
-	const cells = [];
+	const cells: Coords[] = [];
 	let currentRadius = 0;
 	let vertices = [];
 	while (currentRadius < radius) {
@@ -193,8 +193,6 @@ const calculateCellSteps = (cell: Cell, step: number, maxStep: number, cells: Ce
 	});
 }
 export const calculateMovement = (character: Character, cells: Cell[][]) => {
-	console.log("log: calculateMovement -> character", character.movementLeft);
-	console.log("log: calculateMovement -> origin", character.position.x, character.position.y);
 	const movementCosts: Map<Cell, number> = new Map();
 	movementCosts.set(character.position, 0);
 	calculateCellSteps(character.position, 0, character.movementLeft, cells, character, movementCosts);

@@ -1,32 +1,37 @@
-import { SerializableCharacter, Character } from "./Character";
+import { Character } from "./Character";
 import { Obstacle, SerializableObstacle } from "./Obstacle";
-import { Coords } from "./Board";
+import { Coords, Board } from "./Board";
 
 export interface SerializableCell {
 	x: number;
 	y: number;
+	selected?: boolean;
+	step?: number;
 	movementCost?: number;
 	obstacle?: SerializableObstacle;
-	character?: SerializableCharacter;
 }
 
 export class Cell implements Coords {
 	#x: SerializableCell['x'];
 	#y: SerializableCell['y'];
+	#selected: SerializableCell['selected'];
+	#step: SerializableCell['step'];
 	#movementCost: SerializableCell['movementCost'];
 	#obstacle: Obstacle;
 	#character: Character;
+	#board: Board;
 
-	constructor(cell: SerializableCell) {
+	constructor(cell: SerializableCell, board: Board) {
 		this.#x = cell.x;
 		this.#y = cell.y;
+		this.#selected = cell.selected || false;
+		this.#step = cell.step;
 		this.#movementCost = cell.movementCost || 1;
+		this.#board = board;
 		if (cell.obstacle) {
 			this.#obstacle = new Obstacle(cell.obstacle);
 		}
-		if (cell.character) {
-			this.#character = new Character(cell.character);
-		}
+		board.cells[this.#y][this.#x] = this;
 	}
 	get x() {
 		return this.#x;
@@ -34,14 +39,23 @@ export class Cell implements Coords {
 	get y() {
 		return this.#y;
 	}
+	get selected() {
+		return this.#selected;
+	}
 	get movementCost() {
 		return this.#movementCost;
+	}
+	get step() {
+		return this.#step;
+	}
+	set step(step: number) {
+		this.#step = step;
 	}
 	get obstacle() {
 		return this.#obstacle;
 	}
-	set obstacle(newObstacle: Obstacle) {
-		this.#obstacle = newObstacle;
+	set obstacle(obstacle: Obstacle) {
+		this.#obstacle = obstacle;
 	}
 	get character() {
 		return this.#character;
@@ -56,22 +70,40 @@ export class Cell implements Coords {
 		this.#character = character;
 		this.#character.position = this;
 	}
+	select() {
+		if (this !== this.#board.selectedCell) {
+			if (this.#board.selectedCell.character && this.step) { // Previous Cell had a Character
+				this.#board.selectedCell.character.doAction(this);
+			} else if (this.character) {
+				this.#board.removeSteps();
+				this.#board.calculateCharacterMovement(this.character);
+			} else {
+				this.#board.removeSteps();
+			}
+			this.#board.selectedCell?.deSelect();
+			this.#selected = true;
+			this.#board.selectedCell = this;
+		} else {
+			this.#selected = true;
+		}
+	}
+	deSelect() {
+		this.#selected = false;
+		if (this === this.#board.selectedCell) {
+			this.#board.selectedCell = null;
+		}
+	}
 	removeCharacter() {
 		this.#character = null;
 	}
-	toJSON() {
+	toJSON(): SerializableCell {
 		return {
 			x: this.#x,
-			y: this.#y
+			y: this.#y,
+			selected: this.#selected,
+			step: this.#step,
+			movementCost: this.#movementCost,
+			obstacle: this.#obstacle?.toJSON(),
 		}
-	}
-	toString() {
-		return 'PIKIIII toString'
-	}
-	*[Symbol.iterator]() {
-		yield this.x;
-		yield this.y;
-		yield this.character;
-		yield this.obstacle;
 	}
 }

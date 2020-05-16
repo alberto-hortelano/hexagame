@@ -1,7 +1,18 @@
 {
 	"compilerOptions": {
 		"outDir": "./dist/",
-		"baseUrl": "./src",
+		"baseUrl": "./",
+		"paths": {
+			"core/*": [
+				"src/common/core/*"
+			],
+			"lib/*": [
+				"src/common/lib/*"
+			],
+			"components/*": [
+				"src/client/react/components/*"
+			]
+		},
 		"sourceMap": true,
 		"module": "commonjs",
 		"target": "ES2018",
@@ -9,6 +20,6 @@
 		"allowSyntheticDefaultImports": true
 	},
 	"include": [
-		"src/**/*"
+		"src/**/*",
 	]
 }

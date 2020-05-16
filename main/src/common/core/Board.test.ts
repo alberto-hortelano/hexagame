@@ -8,7 +8,7 @@ describe('Board', () => {
 	const boardWidth = 20;
 	const boardHeigth = 15;
 	const exampleCoords = { x: 4, y: 3 };
-	const exampleCell = new Cell(exampleCoords);
+	let exampleCell: Cell;
 	let board: Board;
 
 	beforeEach(() => {
@@ -17,6 +17,7 @@ describe('Board', () => {
 			heigth: boardHeigth,
 			cells: []
 		});
+		exampleCell = board.newCell(exampleCoords);
 	});
 	it('creates boards', () => {
 		expect(board.width).toBe(boardWidth);

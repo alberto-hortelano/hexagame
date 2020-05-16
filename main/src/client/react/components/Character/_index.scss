@@ -1,0 +1,12 @@
+.character{
+    display: flex;
+    position: absolute;
+	width: $cell-radius + 0px;
+	height: $cell-radius + 0px;
+    background: red;
+    border-radius: 100%;
+    flex-direction: column;
+	justify-content: center;
+    align-items: center;
+	box-sizing: border-box;
+}

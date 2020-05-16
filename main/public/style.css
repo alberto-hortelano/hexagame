@@ -1,0 +1,61 @@
+/* Constants */
+/* Imports */
+#app .board {
+  position: relative;
+  transform: perspective(2000px) rotateX(40deg); }
+  #app .board .clickable-board {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; }
+  #app .board .canvas-board ul li {
+    border: 1px solid #666; }
+  #app .board .characters {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0; }
+  #app .board .clickable-board ul, #app .board .canvas-board ul {
+    margin: 0;
+    padding: 0;
+    height: 70px; }
+    #app .board .clickable-board ul:nth-child(even), #app .board .canvas-board ul:nth-child(even) {
+      padding-left: 35px;
+      margin: -10px 0px; }
+    #app .board .clickable-board ul li, #app .board .canvas-board ul li {
+      display: inline-block;
+      border-radius: 100%;
+      width: 70px;
+      height: 70px;
+      box-sizing: border-box;
+      position: relative; }
+
+#app .character {
+  display: flex;
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: red;
+  border-radius: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box; }
+
+#app .cell {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+body {
+  display: block;
+  margin: 0;
+  content: ' '; }
+  body ul, body li {
+    list-style: none; }

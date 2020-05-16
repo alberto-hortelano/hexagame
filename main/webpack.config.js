@@ -13,7 +13,12 @@ module.exports = {
 		]
 	},
 	resolve: {
-		extensions: ['.tsx', '.ts', '.js']
+		extensions: ['.tsx', '.ts', '.js'],
+		alias: {
+			core: path.resolve(__dirname, 'src/common/core/'),
+			lib: path.resolve(__dirname, 'src/common/lib/'),
+			components: path.resolve(__dirname, 'src/client/react/components/'),
+		}
 	},
 	output: {
 		filename: 'client.js',
